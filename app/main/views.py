@@ -4,7 +4,7 @@ from ..models import User
 from ..email import send_email
 from . import main
 from .forms import NameForm
-
+import os
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -16,6 +16,9 @@ def index():
             db.session.add(user)
             db.session.commit()
             session['known'] = False
+            env_list = current_app.config
+            for key in env_list:
+                print(key+':'+str(current_app.config[key]))
             if current_app.config['FLASKY_ADMIN']:
                 send_email(current_app.config['FLASKY_ADMIN'], 'New User',
                            'mail/new_user', user=user)
