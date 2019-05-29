@@ -89,16 +89,29 @@
       <Position>3</Position>
       <DataType>INTEGER|0s</DataType>
     </column>
-    <index id="26" parent="9" name="ix_users_username">
+    <column id="26" parent="9" name="password_hash">
+      <Position>4</Position>
+      <DataType>VARCHAR(128)|0s</DataType>
+    </column>
+    <column id="27" parent="9" name="email">
+      <Position>5</Position>
+      <DataType>VARCHAR(64)|0s</DataType>
+    </column>
+    <index id="28" parent="9" name="ix_users_username">
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="27" parent="9">
+    <index id="29" parent="9" name="ix_users_email">
+      <ColNames>email</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="30" parent="9">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="28" parent="9">
+    <foreign-key id="31" parent="9">
       <ColNames>role_id</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>id</RefColNames>

@@ -43,4 +43,3 @@ config = {
 
     'default': DevelopmentConfig
 }
-print(Config.MAIL_PASSWORD)
