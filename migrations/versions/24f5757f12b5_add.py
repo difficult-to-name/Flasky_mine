@@ -1,8 +1,8 @@
-"""two
+"""add
 
-Revision ID: 7f354f8115a2
-Revises: 
-Create Date: 2019-05-30 10:08:29.830959
+Revision ID: 24f5757f12b5
+Revises: 7f354f8115a2
+Create Date: 2019-05-31 17:00:48.925457
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7f354f8115a2'
-down_revision = None
+revision = '24f5757f12b5'
+down_revision = '7f354f8115a2'
 branch_labels = None
 depends_on = None
 
@@ -22,7 +22,6 @@ def upgrade():
                existing_type=sa.BOOLEAN(),
                nullable=True,
                existing_server_default=sa.text('FALSE'))
-
     # ### end Alembic commands ###
 
 
