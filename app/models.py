@@ -3,6 +3,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from flask_login import UserMixin,AnonymousUserMixin
 from . import db, login_manager
+from datetime import datetime
 
 
 class Permission():
@@ -74,6 +75,11 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     email = db.Column(db.String(64), unique=True, index=True)
     confirmed = db.Column(db.Boolean, default=False)
+    name = db.Column(db.String(64))     #真实姓名
+    location = db.Column(db.String(64))     #所在地
+    about_me = db.Column(db.Text())     #自我介绍
+    member_since = db.Column(db.DateTime(), default=datetime.now)      #注册时间
+    last_seen = db.Column(db.DateTime(), default=datetime.now)      #最后访问时间
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -157,6 +163,11 @@ class User(UserMixin, db.Model):
 
     def is_administrator(self):
         return self.can(Permission.ADMIN)
+
+    # 刷新最后访问时间
+    def ping(self):
+        self.last_seen = datetime.now()
+        db.session.add(self)
 
     def __repr__(self):
         return '<User %r>' % self.username
