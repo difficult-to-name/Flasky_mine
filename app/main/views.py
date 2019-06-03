@@ -7,6 +7,7 @@ from ..models import User
 def index():
     return render_template('index.html')
 
+# 用户资料页面的路由
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()

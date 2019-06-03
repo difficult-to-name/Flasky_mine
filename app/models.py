@@ -42,7 +42,7 @@ class Role(db.Model):
 
             if role is None:
                 role = Role(name=r)
-            role.reset_permisssions()
+            role.reset_permissions()
             for perm in roles[r]:
                 role.add_permission(perm)
             role.default = (role.name == default_role)
@@ -158,9 +158,11 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    # 检查用户是否具有指定的权限
     def can(self, perm):
         return self.role is not None and self.role.has_permission(perm)
 
+    # 检查用户是否是管理员
     def is_administrator(self):
         return self.can(Permission.ADMIN)
 

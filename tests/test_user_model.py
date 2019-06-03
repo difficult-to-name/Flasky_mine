@@ -1,8 +1,7 @@
 import unittest
 import time
-from app import create_app, db
 from app.models import User, AnonymousUser, Role, Permission
-
+from app import create_app, db
 
 class UserModelTestCase(unittest.TestCase):
     def setUp(self):
@@ -14,7 +13,7 @@ class UserModelTestCase(unittest.TestCase):
 
     def tearDown(self):
         db.session.remove()
-        db.drop_all()
+        # db.drop_all()
         self.app_context.pop()
 
     def test_password_setter(self):

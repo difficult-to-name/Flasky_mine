@@ -144,7 +144,7 @@ def password_reset(token):
             return redirect(url_for('main.index'))
     return render_template('auth/reset_password.html', form=form)
 
-
+# 重置邮箱
 @auth.route('/change_email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
@@ -163,7 +163,7 @@ def change_email_request():
             flash('Invalid email or password.')
     return render_template("auth/change_email.html", form=form)
 
-
+# 重置邮箱时验证账号
 @auth.route('/change_email/<token>')
 @login_required
 def change_email(token):
