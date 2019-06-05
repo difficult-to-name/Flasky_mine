@@ -1,7 +1,9 @@
 import unittest
 import time
-from app.models import User, AnonymousUser, Role, Permission
+from datetime import datetime
 from app import create_app, db
+from app.models import User, AnonymousUser, Role, Permission
+
 
 class UserModelTestCase(unittest.TestCase):
     def setUp(self):
@@ -13,7 +15,7 @@ class UserModelTestCase(unittest.TestCase):
 
     def tearDown(self):
         db.session.remove()
-        # db.drop_all()
+        db.drop_all()
         self.app_context.pop()
 
     def test_password_setter(self):
@@ -136,3 +138,36 @@ class UserModelTestCase(unittest.TestCase):
         self.assertFalse(u.can(Permission.WRITE))
         self.assertFalse(u.can(Permission.MODERATE))
         self.assertFalse(u.can(Permission.ADMIN))
+
+    def test_timestamps(self):
+        u = User(password='cat')
+        db.session.add(u)
+        db.session.commit()
+        self.assertTrue(
+            (datetime.utcnow() - u.member_since).total_seconds() < 3)
+        self.assertTrue(
+            (datetime.utcnow() - u.last_seen).total_seconds() < 3)
+
+    def test_ping(self):
+        u = User(password='cat')
+        db.session.add(u)
+        db.session.commit()
+        time.sleep(2)
+        last_seen_before = u.last_seen
+        u.ping()
+        self.assertTrue(u.last_seen > last_seen_before)
+
+    def test_gravatar(self):
+        u = User(email='13631789679@sina.cn', password='cat')
+        print(u.gravatar())
+        with self.app.test_request_context('/'):
+            gravatar = u.gravatar()
+            gravatar_256 = u.gravatar(size=256)
+            gravatar_pg = u.gravatar(rating='pg')
+            gravatar_retro = u.gravatar(default='retro')
+        self.assertTrue('https://secure.gravatar.com/avatar/' +
+                        '2fc6252f267cd4d1d66721cf6f8bbffe' in gravatar)
+        self.assertTrue('s=256' in gravatar_256)
+        self.assertTrue('r=pg' in gravatar_pg)
+        self.assertTrue('d=retro' in gravatar_retro)
+

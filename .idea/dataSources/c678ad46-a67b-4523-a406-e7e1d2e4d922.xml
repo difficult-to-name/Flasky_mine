@@ -119,26 +119,32 @@
       <Position>11</Position>
       <DataType>DATETIME|0s</DataType>
     </column>
-    <index id="34" parent="8" name="ix_users_username">
+    <column id="34" parent="8" name="avatar_hash">
+      <Position>12</Position>
+      <DataType>VARCHAR(32)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>None</DefaultExpression>
+    </column>
+    <index id="35" parent="8" name="ix_users_username">
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <index id="35" parent="8" name="ix_users_email">
+    <index id="36" parent="8" name="ix_users_email">
       <ColNames>email</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="36" parent="8">
+    <key id="37" parent="8">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="37" parent="8">
+    <foreign-key id="38" parent="8">
       <ColNames>role_id</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <check id="38" parent="8">
+    <check id="39" parent="8">
       <Predicate>confirmed IN (0, 1)</Predicate>
     </check>
   </database-model>
