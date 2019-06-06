@@ -1,21 +1,32 @@
 from flask import render_template, redirect, url_for, abort, flash
 from flask_login import login_required, current_user
-from ..models import User, Role
+from ..models import User, Role, Permission, Post
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm
 from .. import db
 from ..decorators import admin_required
 
 
-@main.route('/')
+@main.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    form = PostForm()
+    if current_user.can(Permission.WRITE) and form.validate_on_submit():
+        # current_user._get_current_object()返回真正的用户对象（username）
+        post = Post(body=form.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    # 返回一个博客列表
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', form=form, posts=posts)
 
 # 用户资料页面
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user.html', user=user)
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user.html', user=user, posts=posts)
 
 # 普通用户编辑资料
 @main.route('/edit-profile', methods=['GET', 'POST'])
