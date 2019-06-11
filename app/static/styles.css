@@ -33,14 +33,13 @@ div.post-content {
     min-height: 48px;
 }
 div.post-footer {
-    text-align: center;
+    text-align: right;
 }
 div.pagination {
     width: 100%;
-    text-align: center;
+    text-align: right;
     padding: 0px;
-    margin: 0 auto;
-    position: center;
+    margin: auto;
 }
 div.flask-pagedown-preview {
     margin: 10px 0px 10px 0px;
@@ -64,4 +63,7 @@ div.flask-pagedown-preview h3 {
 }
 .post-body h3 {
     font-size: 120%;
+}
+.table.followers tr {
+    border-bottom: 1px solid #e0e0e0;
 }
