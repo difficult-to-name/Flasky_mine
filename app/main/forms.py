@@ -50,8 +50,13 @@ class EditProfileAdminForm(FlaskForm):
                 User.query.filter_by(email=field.data).first():
             raise ValidationError('Email already registered.')
 
+# 编辑博客表单
 class PostForm(FlaskForm):
     body = PageDownField("What's on your mind?", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+# 编辑评论表单
+class CommentForm(FlaskForm):
+    body = StringField('Enter your comment', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
