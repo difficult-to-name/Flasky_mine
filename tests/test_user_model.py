@@ -218,3 +218,5 @@ class UserModelTestCase(unittest.TestCase):
                          'posts_url', 'followed_posts_url', 'post_count']
         self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
         self.assertEqual('/api/v1/users/' + str(u.id), json_user['url'])
+
+
